@@ -66,7 +66,7 @@ class DefaultRemoteSerializerFactory(
     ): AMQPSerializer<Any> =
         // If we have seen this descriptor before, we assume we have seen everything in this schema before.
         descriptorBasedSerializerRegistry.getOrBuild(typeDescriptor) {
-            logger.trace("get Serializer descriptor=$typeDescriptor")
+            logger.trace("get Serializer descriptor={}", typeDescriptor)
 
             // Interpret all of the types in the schema into RemoteTypeInformation, and reflect that into LocalTypeInformation.
             val remoteTypeInformationMap = remoteTypeModel.interpret(schema)
