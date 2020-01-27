@@ -69,7 +69,14 @@ import net.corda.notary.experimental.raft.RaftConfig
 import net.corda.testing.core.ALICE_NAME
 import net.corda.testing.core.BOB_NAME
 import net.corda.testing.core.DUMMY_BANK_A_NAME
-import net.corda.testing.driver.*
+import net.corda.testing.driver.DriverDSL
+import net.corda.testing.driver.DriverParameters
+import net.corda.testing.driver.JmxPolicy
+import net.corda.testing.driver.NodeHandle
+import net.corda.testing.driver.NodeParameters
+import net.corda.testing.driver.NotaryHandle
+import net.corda.testing.driver.PortAllocation
+import net.corda.testing.driver.WebserverHandle
 import net.corda.testing.driver.internal.InProcessImpl
 import net.corda.testing.driver.internal.NodeHandleInternal
 import net.corda.testing.driver.internal.OutOfProcessImpl
@@ -164,7 +171,7 @@ class DriverDSLImpl(
 
     private val bytemanJarPath: String? by lazy {
         try {
-            resolveJar("org.jboss.byteman.agent.Transformer")
+            resolveJar("org.jboss.byteman.agent.Transformer", verbose = false)
         } catch (e: Exception) {
             null
         }
@@ -180,13 +187,16 @@ class DriverDSLImpl(
         }
     }
 
-    private fun resolveJar(className: String): String {
+    private fun resolveJar(className: String, verbose: Boolean = true): String {
         return try {
             val type = Class.forName(className)
             val src = type.protectionDomain.codeSource
             src.location.toPath().toString()
         } catch (e: Exception) {
-            log.warn("Unable to locate JAR for class given by `$className` on classpath: ${e.message}", e)
+            when (verbose) {
+                true -> log.warn("Unable to locate JAR for class given by `$className` on classpath:", e)
+                false -> log.info("Unable to locate JAR for class given by `$className` on classpath")
+            }
             throw e
         }
     }
