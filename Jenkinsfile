@@ -1,8 +1,8 @@
-import static com.r3.build.BuildControl.killAllExistingBuildsForJob
-@Library('corda-shared-build-pipeline-steps')
-import static com.r3.build.BuildControl.killAllExistingBuildsForJob
+//import static com.r3.build.BuildControl.killAllExistingBuildsForJob
+//@Library('corda-shared-build-pipeline-steps')
+//import static com.r3.build.BuildControl.killAllExistingBuildsForJob
 
-killAllExistingBuildsForJob(env.JOB_NAME, env.BUILD_NUMBER.toInteger())
+//killAllExistingBuildsForJob(env.JOB_NAME, env.BUILD_NUMBER.toInteger())
 
 pipeline {
     agent { label 'local-k8s' }
@@ -11,14 +11,22 @@ pipeline {
         timeout(time: 3, unit: 'HOURS')
     }
 
-    environment {
-        DOCKER_TAG_TO_USE = "${env.GIT_COMMIT.subSequence(0, 8)}"
-        EXECUTOR_NUMBER = "${env.EXECUTOR_NUMBER}"
-        BUILD_ID = "${env.BUILD_ID}-${env.JOB_NAME}"
-        ARTIFACTORY_CREDENTIALS = credentials('artifactory-credentials')
-    }
+    //environment {
+        //DOCKER_TAG_TO_USE = "${env.GIT_COMMIT.subSequence(0, 8)}"
+        //EXECUTOR_NUMBER = "${env.EXECUTOR_NUMBER}"
+        //BUILD_ID = "${env.BUILD_ID}-${env.JOB_NAME}"
+        //ARTIFACTORY_CREDENTIALS = credentials('artifactory-credentials')
+    //}
 
     stages {
+        stage('Git Checkout') {
+            steps {
+                gitCheckout([
+                        branch: "jenkins-jacoco",
+                        url: "https://github.com/dgounaris/corda"
+                ])
+            }
+        }
         stage('Corda Pull Request - Generate Build Image') {
             steps {
                 withCredentials([string(credentialsId: 'container_reg_passwd', variable: 'DOCKER_PUSH_PWD')]) {
@@ -67,7 +75,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: '**/pod-logs/**/*.log', fingerprint: false
+         //   archiveArtifacts artifacts: '**/pod-logs/**/*.log', fingerprint: false
             junit '**/build/test-results-xml/**/*.xml'
         }
         cleanup {

@@ -188,6 +188,7 @@ buildscript {
         classpath "us.kirchmeier:gradle-capsule-plugin:1.0.4_r3"
         classpath group: "com.r3.testing", name: "gradle-distributed-testing-plugin", version: "1.2-LOCAL-K8S-SHARED-CACHE-SNAPSHOT", changing: true
         classpath "com.bmuschko:gradle-docker-plugin:5.0.0"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
     }
 }
 
@@ -204,6 +205,7 @@ apply plugin: 'net.corda.plugins.publish-utils'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: "com.bmuschko.docker-remote-api"
+apply plugin: 'org.sonarqube'
 
 
 // If the command line project option -PversionFromGit is added to the gradle invocation, we'll resolve 
@@ -268,6 +270,18 @@ allprojects {
     jacoco {
         // JDK11 official support (https://github.com/jacoco/jacoco/releases/tag/v0.8.3)
         toolVersion = "0.8.3"
+    }
+
+    sonarqube {
+        properties {
+            property "sonar.projectName", "Corda"
+            property "sonar.projectKey", "corda"
+            property 'sonar.sources', 'src'
+            property 'sonar.tests', 'src'
+            property 'sonar.inclusions', 'src/main/**'
+            property 'sonar.test.inclusions', 'src/test/**'
+            property 'sonar.login', '4a7643671ca785abd43e1b3ccd76eea206739f53'
+        }
     }
 
     tasks.withType(JavaCompile) {
