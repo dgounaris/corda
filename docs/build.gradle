@@ -33,6 +33,10 @@ dokka {
     outputDirectory = file("${rootProject.rootDir}/docs/build/html/api/kotlin")
 }
 
+sonarqube {
+    skipProject = true
+}
+
 task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = "javadoc"
     outputDirectory = file("${rootProject.rootDir}/docs/build/html/api/javadoc")
