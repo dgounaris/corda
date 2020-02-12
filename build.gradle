@@ -276,10 +276,10 @@ allprojects {
         properties {
             property "sonar.projectName", "Corda"
             property "sonar.projectKey", "corda"
-            property 'sonar.sources', 'src'
-            property 'sonar.tests', 'src'
-            property 'sonar.inclusions', 'src/main/**'
-            property 'sonar.test.inclusions', 'src/test/**'
+            property 'sonar.sources', '**src'
+            property 'sonar.tests', '**src'
+            property 'sonar.inclusions', '**src/main/**'
+            property 'sonar.test.inclusions', '**src/test/**,src/integration-test/**'
             property 'sonar.login', '4a7643671ca785abd43e1b3ccd76eea206739f53'
         }
     }
