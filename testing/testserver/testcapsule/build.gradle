@@ -24,6 +24,10 @@ capsule {
     version capsule_version
 }
 
+sonarqube {
+    skipProject = true
+}
+
 task buildWebserverJar(type: FatCapsule, dependsOn: project(':node').tasks.jar) {
     applicationClass 'net.corda.webserver.WebServer'
     archiveBaseName = 'corda-testserver'
