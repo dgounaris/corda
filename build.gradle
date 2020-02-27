@@ -186,7 +186,7 @@ buildscript {
         classpath "us.kirchmeier:gradle-capsule-plugin:1.0.4_r3"
         classpath group: "com.r3.testing", name: "gradle-distributed-testing-plugin", version: "1.2-LOCAL-K8S-SHARED-CACHE-SNAPSHOT", changing: true
         classpath "com.bmuschko:gradle-docker-plugin:5.0.0"
-        //classpath files("./gradle-dependx/build/libs/gradle-dependx.jar")
+        classpath files("./gradle-dependx/build/libs/gradle-dependx.jar")
     }
 }
 
@@ -203,7 +203,7 @@ apply plugin: 'net.corda.plugins.publish-utils'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: "com.bmuschko.docker-remote-api"
-//apply plugin: 'gradle.dependx.dependxies'
+apply plugin: 'gradle.dependx.dependxies'
 
 
 // If the command line project option -PversionFromGit is added to the gradle invocation, we'll resolve 
@@ -471,7 +471,7 @@ tasks.register('detekt', JavaExec) {
     def input = "$projectDir"
     def config = "$projectDir/detekt-config.yml"
     def baseline = "$projectDir/detekt-baseline.xml"
-    def detektPluginsJar = project(':detekt-plugins').tasks.jar
+    //def detektPluginsJar = project(':detekt-plugins').tasks.jar
     def plugins = detektPluginsJar.outputs.files.singleFile
     def params = ['-i', input, '-c', config, '-b', baseline, '--plugins', plugins]
     inputs.files(detektPluginsJar, config, baseline)
