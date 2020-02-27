@@ -471,7 +471,7 @@ tasks.register('detekt', JavaExec) {
     def input = "$projectDir"
     def config = "$projectDir/detekt-config.yml"
     def baseline = "$projectDir/detekt-baseline.xml"
-    //def detektPluginsJar = project(':detekt-plugins').tasks.jar
+    def detektPluginsJar = project(':detekt-plugins').tasks.jar
     def plugins = detektPluginsJar.outputs.files.singleFile
     def params = ['-i', input, '-c', config, '-b', baseline, '--plugins', plugins]
     inputs.files(detektPluginsJar, config, baseline)
