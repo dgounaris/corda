@@ -690,16 +690,18 @@ apply plugin: 'com.r3.testing.image-building'
 // Log timings per task.
 class TimingsListener implements TaskExecutionListener, BuildListener {
     private Clock clock
+    private long prevMs
     private timings = []
 
     @Override
     void beforeExecute(Task task) {
         clock = Clock.systemUTC()
+        prevMs = clock.millis()
     }
 
     @Override
     void afterExecute(Task task, TaskState taskState) {
-        def ms = clock.millis()
+        def ms = clock.millis() - prevMs
         timings.add([ms, task.path])
         task.project.logger.warn "${task.path} took ${ms}ms"
     }
