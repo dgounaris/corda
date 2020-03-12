@@ -54,10 +54,6 @@ def walkProjects(project, block) {
     project.childProjects.each { walkProjects(it.value, block) }
 }
 
-sonarqube {
-    skipProject = true
-}
-
 task graphs {
     doLast {
         def projects = new LinkedHashMap()

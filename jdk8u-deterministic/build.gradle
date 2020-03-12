@@ -17,10 +17,6 @@ dependencies {
     jdk "net.corda:deterministic-rt:$deterministic_rt_version:api"
 }
 
-sonarqube {
-    skipProject = true
-}
-
 def copyJdk = tasks.register('copyJdk', Copy) {
     outputs.dir jdk_home
 

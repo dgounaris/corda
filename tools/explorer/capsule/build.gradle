@@ -15,10 +15,6 @@ capsule {
     version capsule_version
 }
 
-sonarqube {
-    skipProject = true
-}
-
 task buildExplorerJAR(type: FatCapsule, dependsOn: project(':tools:explorer').tasks.jar) {
     applicationClass 'net.corda.explorer.Main'
     archiveBaseName = 'node-explorer'
